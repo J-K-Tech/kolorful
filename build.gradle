@@ -1,0 +1,27 @@
+buildscript {
+	repositories {
+        mavenCentral()
+        maven { url 'https://cdn.fox2code.com/maven' }
+        maven { url 'https://jitpack.io/' }
+    }
+    dependencies {
+        classpath('com.fox2code.FoxLoader:dev:1.3.0')
+    }
+}
+
+apply plugin: 'foxloader.dev'
+
+version '0.10'
+
+foxloader {
+    // forceReload = true
+    modId = "kolorful"
+    modName = "kolorful"
+    modVersion = project.version
+    modDesc = "more \"kolors\"!!!"
+    clientMod = "kn.jktech.kolorful.kolor"
+    // Development tools don't like that both client and server define
+    // the same classes, so uncomment to disable the side inclusion.
+    // includeClient = false
+    // includeServer = false
+}
