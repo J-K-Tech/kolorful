@@ -88,5 +88,22 @@ public class kolor extends Mod  implements ClientMod {
                 "BDB",
                 "BGB",
                 'B', Block.glass,'D', Item.dyePowder,'G',Item.glowstoneDust,'W',Block.gear);
+
+
+                for (int color = 0; color < 16; color++) {
+                RegisteredBlock stucco=registerNewBlock(ItemDye.textureColors[color]+"_stucco_brick",
+                        new BlockBuilder().setBlockName(ItemDye.textureColors[color]+"_stucco_brick").setEffectiveTool(RegisteredToolType.PICKAXE)
+                                .setBlockHardness(2.0F)
+                                .setBlockResistance(10.0F)
+                                .setBlockStepSounds(GameRegistry.BuiltInStepSounds.STONE)
+                );
+                blockids.add(stucco.getRegisteredBlockId());
+                itemids.add(stucco.asRegisteredItem().getRegisteredItemId());
+                registerRecipe(new ItemStack(stucco.asRegisteredItem().getRegisteredItemId(),8)
+                        ,
+                        "BB",
+                        "BB",
+                        'B', new ItemStack(Block.stucco,1,-color+15));
+            }
     }
 }
