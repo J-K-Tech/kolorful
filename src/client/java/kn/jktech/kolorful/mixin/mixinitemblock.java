@@ -15,7 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.lang.model.util.SimpleElementVisitor7;
 
 @Mixin(ItemBlock.class)
-public class mixinitemblock {
+public abstract class mixinitemblock {
+    @Shadow
+    protected abstract void placeBlock(
+            Block block, EntityPlayer player, ItemStack itemstack, World world, int x, int y, int z, int offset, int facing
+    );
     @Shadow
     public int blockID;
     @Inject(method = "onItemUse",at=@At("HEAD"),cancellable = true)
@@ -58,7 +62,7 @@ public class mixinitemblock {
                 ci.cancel();
             } else if (world.canBlockBePlacedAt(this.blockID, x, y, z, false, facing)) {
                 System.out.println("can place block");
-                world.setBlockAndMetadataWithNotify(x,y,z,this.blockID, itemstack.getItemDamage());
+                this.placeBlock(b, player, itemstack, world, x, y, z, itemstack.getItemDamage(), facing);
                 ci.setReturnValue(true);
                 ci.cancel();
             } else {
