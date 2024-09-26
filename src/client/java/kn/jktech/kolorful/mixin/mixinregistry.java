@@ -15,6 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 
 @Mixin(GameRegistryClient.class)
 public class mixinregistry {
+    public int kolor=960;
+
     @Inject(method = "registerNewItem0",at=@At("RETURN"),cancellable = true)
 
     private void registerNewItem0(String name, ItemBuilder itemBuilder,
@@ -25,6 +27,13 @@ public class mixinregistry {
             ci.setReturnValue(
                     (Item)(i.getClass().getMethod("setSubtypesmix",boolean.class).invoke(i,true))
             );
+        }
+    }
+    @Inject(method = "generateNewBlockId",at=@At("HEAD"),cancellable = true)
+    public void generateNewBlockId(String name, int fallbackId,CallbackInfoReturnable ci) {
+        if (name.split(":")[0].equals("kolor")){
+            ci.setReturnValue(kolor++);
+            ci.cancel();
         }
     }
 }
