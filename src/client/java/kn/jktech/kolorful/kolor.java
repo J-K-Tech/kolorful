@@ -6,15 +6,14 @@ import com.fox2code.foxloader.registry.*;
 import kn.jktech.kolorful.blocks.blockDisco;
 import net.minecraft.src.game.block.Block;
 import net.minecraft.src.game.block.BlockColored;
-import net.minecraft.src.game.block.BlockPlanks;
 import net.minecraft.src.game.block.Material;
 import net.minecraft.src.game.item.Item;
 import net.minecraft.src.game.item.ItemBlockColored;
-import net.minecraft.src.game.item.ItemDye;
 import net.minecraft.src.game.item.ItemStack;
+import net.minecraft.src.game.nbt.NBTTagCompound;
+import net.minecraft.src.game.nbt.NBTTagInt;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class kolor extends Mod  implements ClientMod {
@@ -23,33 +22,39 @@ public class kolor extends Mod  implements ClientMod {
     @Override
     public void onInit() {
         System.out.println("kolorful blocks");
-        for (int color = 0; color < 16; color++) {
-            RegisteredBlock hardclay=registerNewBlock(ItemDye.textureColors[color]+"_hardened_clay",
-                    new BlockBuilder().setBlockName(ItemDye.textureColors[color]+"_hardened_clay").setEffectiveTool(RegisteredToolType.PICKAXE)
+
+
+            RegisteredBlock hardclay=registerNewBlock("kolor_hardened_clay",
+                    new BlockBuilder().setBlockName("kolor_hardened_clay").setEffectiveTool(RegisteredToolType.PICKAXE)
                             .setBlockHardness(2.0F)
                             .setBlockResistance(10.0F)
                             .setBlockStepSounds(GameRegistry.BuiltInStepSounds.STONE)
+                            .setGameBlockProvider(((id, blockBuilder, ext) -> new BlockColored(id,Material.rock,"_hardened_clay")))
             );
             blockids.add(hardclay.getRegisteredBlockId());
             itemids.add(hardclay.asRegisteredItem().getRegisteredItemId());
-        registerRecipe(new ItemStack(hardclay.asRegisteredItem().getRegisteredItemId(),8)
+        for (int color = 0; color < 16; color++) {
+        registerRecipe(new ItemStack(hardclay.asRegisteredItem().getRegisteredItemId(),8,color)
         ,
 "BBB",
         "BDB",
         "BBB",
                 'B', Block.hardenedClay,'D', new ItemStack(Item.dyePowder,1,color));}
 
-            for (int color = 0; color < 16; color++) {
-        if (color!=0){
-            RegisteredBlock bricks=registerNewBlock(ItemDye.textureColors[color]+"_bricks",
-                    new BlockBuilder().setBlockName(ItemDye.textureColors[color]+"_bricks").setEffectiveTool(RegisteredToolType.PICKAXE)
+            RegisteredBlock bricks=registerNewBlock("kolor_bricks",
+                    new BlockBuilder().setBlockName("kolor_bricks").setEffectiveTool(RegisteredToolType.PICKAXE)
                             .setBlockHardness(2.0F)
                             .setBlockResistance(10.0F)
                             .setBlockStepSounds(GameRegistry.BuiltInStepSounds.STONE)
+                            .setGameBlockProvider(((id, blockBuilder, ext) -> new BlockColored(id,Material.rock,"_bricks")))
             );
-            blockids.add(bricks.getRegisteredBlockId());
-            itemids.add(bricks.asRegisteredItem().getRegisteredItemId());
-            registerRecipe(new ItemStack(bricks.asRegisteredItem().getRegisteredItemId(),8)
+
+
+        for (int color = 0; color < 16; color++) {
+            if (color!=0){
+                NBTTagCompound nbt=new NBTTagCompound();
+                nbt.setTag("color",new NBTTagInt(color));
+                registerRecipe(new ItemStack(bricks.asRegisteredItem().getRegisteredItemId(),8,color,nbt)
                     ,
                     "BBB",
                     "BDB",
@@ -90,20 +95,21 @@ public class kolor extends Mod  implements ClientMod {
                 'B', Block.glass,'D', Item.dyePowder,'G',Item.glowstoneDust,'W',Block.gear);
 
 
-                for (int color = 0; color < 16; color++) {
-                RegisteredBlock stucco=registerNewBlock(ItemDye.textureColors[color]+"_stucco_brick",
-                        new BlockBuilder().setBlockName(ItemDye.textureColors[color]+"_stucco_brick").setEffectiveTool(RegisteredToolType.PICKAXE)
+                RegisteredBlock stucco=registerNewBlock("kolor_stucco_brick",
+                        new BlockBuilder().setBlockName("kolor_stucco_brick").setEffectiveTool(RegisteredToolType.PICKAXE)
                                 .setBlockHardness(2.0F)
                                 .setBlockResistance(10.0F)
                                 .setBlockStepSounds(GameRegistry.BuiltInStepSounds.STONE)
+                                .setGameBlockProvider(((id, blockBuilder, ext) -> new BlockColored(id,Material.rock,"_stucco_brick")))
                 );
-                blockids.add(stucco.getRegisteredBlockId());
-                itemids.add(stucco.asRegisteredItem().getRegisteredItemId());
-                registerRecipe(new ItemStack(stucco.asRegisteredItem().getRegisteredItemId(),8)
+        for (int color = 0; color < 16; color++) {
+            NBTTagCompound nbt=new NBTTagCompound();
+            nbt.setTag("color",new NBTTagInt(color));
+            registerRecipe(new ItemStack(stucco.asRegisteredItem().getRegisteredItemId(),8,color,nbt)
                         ,
                         "BB",
                         "BB",
-                        'B', new ItemStack(Block.stucco,1,-color+15));
+                        'B', new ItemStack(Block.stucco,1,color));
             }
     }
 }

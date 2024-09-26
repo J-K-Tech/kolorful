@@ -32,41 +32,8 @@ public abstract class mixinRender {
             float r=rgb[0];
             float g=rgb[1];
             float b=rgb[2];
-            Material mUp = this.blockAccess.getBlockMaterial(x, y + 1, z);
-            boolean coveredInSnow = (mUp == Material.builtSnow || mUp == Material.snow)
-                    && block.blockMaterial != Material.snow
-                    && block.blockMaterial != Material.builtSnow;
-            boolean coveredInAsh = mUp == Material.ash && block.blockMaterial != Material.ash;
             this.enableAO = false;
             Tessellator instance = Tessellator.instance;
-            boolean var9 = false;
-            float var10 = 0.5F;
-            float var11 = 1.0F;
-            float var12 = 0.8F;
-            float var13 = 0.6F;
-            float var14 = var11 * r;
-            float var15 = var11 * g;
-            float var16 = var11 * b;
-            float var17 = var10;
-            float var18 = var12;
-            float var19 = var13;
-            float var20 = var10;
-            float var21 = var12;
-            float var22 = var13;
-            float var23 = var10;
-            float var24 = var12;
-            float var25 = var13;
-            if (block != Block.grass) {
-                var17 = var10 * r;
-                var18 = var12 * r;
-                var19 = var13 * r;
-                var20 = var10 * g;
-                var21 = var12 * g;
-                var22 = var13 * g;
-                var23 = var10 * b;
-                var24 = var12 * b;
-                var25 = var13 * b;
-            }
 
             float var26 = block.getBlockBrightness(this.blockAccess, x, y, z);
             if (this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y - 1, z, 0)) {
@@ -91,7 +58,6 @@ public abstract class mixinRender {
                 instance.setColorOpaque_F(r, g, b);
                 Icon texture = block.getBlockTexture(this.blockAccess, x, y, z, 2);
                    ((RenderBlocks) (Object) this).renderEastFace(block, (double)x, (double)y, (double)z, texture);
-                var9 = true;
             }
 
             if (this.renderAllFaces || block.shouldSideBeRendered(this.blockAccess, x, y, z + 1, 3)) {

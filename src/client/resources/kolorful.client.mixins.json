@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "kn.jktech.kolorful.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": ["mixinRender"]
+  "mixins": ["mixinRender","mixinregistry","mixinItem","mixinitemblock"]
 }
 
 
